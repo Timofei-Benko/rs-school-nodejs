@@ -7,8 +7,9 @@ const getAll = () => boards;
 const getBoard = (id) => boards.find(board => board.id === id);
 
 const createBoard = async (board) => {
-  boards.push(new Board(board));
-  return board;
+  const newBoard = new Board(board)
+  boards.push(newBoard);
+  return newBoard;
 };
 
 const updateBoard = async (id, newBoardData) => {

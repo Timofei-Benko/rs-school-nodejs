@@ -6,6 +6,7 @@ class Board {
     title = 'TEST_BOARD',
     columns = [
       {
+        id: uuid(),
         title: 'TEST_COLUMN',
         order: 0,
       }
