@@ -1,10 +1,10 @@
 const Board = require('./board.model');
 
-const boards = [new Board()];
+const boards = [];
 
-const getAll = () => boards;
+const getAll = async () => boards;
 
-const getBoard = (id) => boards.find(board => board.id === id);
+const getBoard = async (id) => boards.find(board => board.id === id);
 
 const createBoard = async (board) => {
   const newBoard = new Board(board)
@@ -20,9 +20,9 @@ const updateBoard = async (id, newBoardData) => {
 };
 
 const deleteBoard = async (id) => {
-  const boardToDelete = boards.find(board => board.id === id);
-  boards.splice(boards.indexOf(boardToDelete), 1);
-  return boardToDelete;
+  const boardToDelete = boards.findIndex(board => board.id === id);
+  boards.splice(boardToDelete, 1);
+  return {}
 };
 
 module.exports = {
