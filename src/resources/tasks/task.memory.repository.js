@@ -4,38 +4,43 @@ const tasks = [];
 
 const getAll = async () => tasks;
 
-const getTask = async (taskId) => tasks.find(task => task.id === taskId);
+const getTask = async (id) => tasks.find((task) => task.id === id);
 
-const createTask = async (boardId, task) => {
-  const newTask = new Task({ ...task, boardId })
+const createTask = async (taskData, boardId) => {
+  const newTask = new Task(taskData);
+  newTask.boardId = boardId;
   tasks.push(newTask);
   return newTask;
 };
 
-const updateTask = async (taskId, newTaskData) => {
-  const taskIndex = tasks.findIndex(task => task.id === taskId);
-  const newTask = {...newTaskData, taskId};
-  tasks.splice(taskIndex, 1, newTask);
-  return newTask;
+const updateTask = async (newTaskData, id) => {
+  const taskToUpdate = await getTask(id);
+  const updatedTask = new Task({ ...taskToUpdate, ...newTaskData });
+  Object.assign(taskToUpdate, newTaskData);
+  return updatedTask;
 };
 
-const deleteTask = async (taskId) => {
-  const taskToDelete = tasks.find(task => task.id === taskId);
-  tasks.splice(tasks.indexOf(taskToDelete), 1);
-  return taskToDelete;
+const deleteTask = async (id) => {
+  const index = tasks.findIndex((task) => task.id === id);
+  tasks.splice(index, 1);
 };
 
-const deleteAll = async (boardId) => {
+const deleteAllTasks = async (boardId) => {
+  for (let i = 0; i < tasks.length; i += 1) {
+    const task = tasks[i];
+    if (task.boardId === boardId) {
+      tasks.splice(i, 1);
+      i -= 1;
+    }
+  }
+};
+
+const unassignUsers = async (userId) => {
   tasks.forEach(task => {
-    if (task.boardId === boardId) tasks.splice(tasks.indexOf(task), 1);
-  });
-};
-
-const unassignUser = async (userId) => {
-  tasks.forEach(task => {
-    // eslint-disable-next-line no-param-reassign
-    if (task.userId === userId) task.userId = null;
-  });
+    if (task.userId === userId) {
+      tasks.splice(tasks.indexOf(task), 1, { ...task, userId: null });
+    }
+  })
 };
 
 module.exports = {
@@ -44,6 +49,6 @@ module.exports = {
   createTask,
   updateTask,
   deleteTask,
-  deleteAll,
-  unassignUser,
+  deleteAllTasks,
+  unassignUsers,
 };

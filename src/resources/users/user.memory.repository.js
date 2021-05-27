@@ -1,4 +1,5 @@
 const User = require('./user.model');
+const { unassignUsers } = require('../tasks/task.service');
 
 const users = [];
 
@@ -20,6 +21,7 @@ const updateUser = async (id, newUserData) => {
 
 const deleteUser = async (id) => {
   const userToDelete = users.find(user => user.id === id);
+  await unassignUsers(id);
   users.splice(users.indexOf(userToDelete), 1);
   return userToDelete;
 };

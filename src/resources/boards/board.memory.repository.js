@@ -2,33 +2,37 @@ const Board = require('./board.model');
 
 const boards = [];
 
+const { deleteAllTasks } = require('../tasks/task.service');
+
 const getAll = async () => boards;
 
 const getBoard = async (id) => boards.find(board => board.id === id);
 
-const createBoard = async (board) => {
-  const newBoard = new Board(board)
+const createBoard = async (boardData) => {
+  const newBoard = new Board(boardData);
   boards.push(newBoard);
   return newBoard;
 };
 
 const updateBoard = async (id, newBoardData) => {
-  const boardIndex = boards.findIndex(board => board.id === id);
-  const newBoard = {...newBoardData, id};
-  boards.splice(boardIndex, 1, newBoard);
-  return newBoard;
+  const boardToUpdate = await getBoard(id);
+  const updatedBoard = new Board({...boardToUpdate, ...newBoardData });
+  Object.assign(boardToUpdate, newBoardData);
+  return updatedBoard;
 };
 
-const deleteBoard = async (id) => {
-  const boardToDelete = boards.findIndex(board => board.id === id);
-  boards.splice(boardToDelete, 1);
-  return {}
+const removeBoard = async (boardId) => {
+  const boardIndex = boards.findIndex(board => board.id === boardId);
+  await deleteAllTasks(boardId);
+  boards.splice(boardIndex, 1);
 };
 
-module.exports = {
-  getAll,
-  getBoard,
-  createBoard,
-  updateBoard,
-  deleteBoard
-};
+module.exports = (
+  {
+    getAll,
+    getBoard,
+    createBoard,
+    updateBoard,
+    removeBoard,
+  }
+);
