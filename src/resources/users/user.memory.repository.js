@@ -4,22 +4,22 @@ const { unassignUsers } = require('../tasks/task.service');
 const users = [];
 
 /** Returns an array of all users as a promise
- * @returns {Promise<object[]>}
+ * @returns {Promise<object[]>} Array of all stored users
  */
 const getAll = async () => users;
 
 /**
  * Returns user object with given id as a promise
- * @param {string} id
- * @returns {Promise<object>}
+ * @param {string} id User's id
+ * @returns {Promise<object>} Object with user data
  */
 const getUser = async (id) => users.find(user => user.id === id);
 
 /**
  * Creates new user object based on the provided object and pushes it to users storage.
  * Returns new user object as a promise.
- * @param {object} user
- * @returns {Promise<object>}
+ * @param {object} user User data
+ * @returns {Promise<object>} Object with created user's data
  */
 const createUser = async (user) => {
   users.push(new User(user));
@@ -29,9 +29,9 @@ const createUser = async (user) => {
 /**
  * Finds user object based on the id and updates it in the users storage based on the provided object.
  * Returns updated user object.
- * @param {string} id
- * @param {object} newUserData
- * @returns {Promise<object>}
+ * @param {string} id User's id
+ * @param {object} newUserData User data to update from request
+ * @returns {Promise<object>} Object with updated user data
  */
 const updateUser = async (id, newUserData) => {
   const userIndex = users.findIndex(user => user.id === id);
@@ -43,8 +43,8 @@ const updateUser = async (id, newUserData) => {
 /**
  * Finds user object based on the id and removes it from users storage.
  * Returns removed user object as a promise.
- * @param {string} id
- * @returns {Promise<object>}
+ * @param {string} id User's id
+ * @returns {Promise<object>} Object with deleted user's data
  */
 const deleteUser = async (id) => {
   const userToDelete = users.find(user => user.id === id);
