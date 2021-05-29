@@ -28,7 +28,7 @@ const createUser = async (user) => {
 };
 
 /**
- * Finds user objects based on the id and updates it in the users storage based on the provided object.
+ * Finds user object based on the id and updates it in the users storage based on the provided object.
  * Returns updated user object.
  * @param {string} id
  * @param {object} newUserData
@@ -43,7 +43,7 @@ const updateUser = async (id, newUserData) => {
 
 /**
  * Finds user object based on the id and removes it from users storage.
- * Returns removed user object.
+ * Returns removed user object as a promise.
  * @param {string} id
  * @returns {Promise<{}>}
  */
