@@ -4,14 +4,14 @@ let tasks = [];
 
 /**
  * Returns all tasks from the tasks storage in an array as a promise.
- * @returns {Promise<*[]>}
+ * @returns {Promise<object[]>}
  */
 const getAll = async () => tasks;
 
 /**
  * Finds a task object based on the given id and returns it as a promise.
- * @param {string} id
- * @returns {Promise<*{}>}
+ * @param {string} id Task id
+ * @returns {Promise<object>}
  */
 const getTask = async (id) => tasks.find((task) => task.id === id);
 
@@ -19,9 +19,9 @@ const getTask = async (id) => tasks.find((task) => task.id === id);
  * Creates new task object based on the provided object, assigns it provided board id
  * and pushes the task object to task storage.
  * Returns new task object as a promise.
- * @param {object} taskData
- * @param {string} boardId
- * @returns {Promise<*{}>}
+ * @param {object} taskData Task data
+ * @param {string} boardId Id of the board the task is assigned to
+ * @returns {Promise<object>} Created task's data
  */
 const createTask = async (taskData, boardId) => {
   const newTask = new Task(taskData);
@@ -35,9 +35,9 @@ const createTask = async (taskData, boardId) => {
  * creates a new task object based on the provided newTaskData object
  * and copies it to the original task object.
  * Returns updated task object as a promise.
- * @param {object} newTaskData
- * @param {string} id
- * @returns {Promise<*{}>}
+ * @param {object} newTaskData Task data to update
+ * @param {string} id task id
+ * @returns {Promise<object>} Updated task's data
  */
 const updateTask = async (newTaskData, id) => {
   const taskToUpdate = await getTask(id);
@@ -48,7 +48,7 @@ const updateTask = async (newTaskData, id) => {
 
 /**
  * Finds task object based on the id and removes the task object from boards storage.
- * @param {string} id
+ * @param {string} id Task id
  * @returns {Promise<void>}
  */
 const deleteTask = async (id) => {
@@ -58,7 +58,7 @@ const deleteTask = async (id) => {
 
 /**
  * Deletes all tasks that are assigned to a given board based on the board id.
- * @param {string} boardId
+ * @param {string} boardId Id of the board the task is assigned to
  * @returns {Promise<void>}
  */
 const deleteAllTasks = async (boardId) => {
@@ -67,7 +67,7 @@ const deleteAllTasks = async (boardId) => {
 
 /**
  * Sets userId property to equal null for all tasks that have given user id
- * @param {string} userId
+ * @param {string} userId Id of the user the task is assigned to
  * @returns {Promise<void>}
  */
 const unassignUsers = async (userId) => {
