@@ -47,7 +47,7 @@ const updateBoard = async (id, newBoardData) => {
  * Finds board object based on the id, deletes all of its tasks
  * and removes the board object from boards storage.
  * @param {string} boardId
- * @returns {void}
+ * @returns {Promise<void>}
  */
 const removeBoard = async (boardId) => {
   const boardIndex = boards.findIndex(board => board.id === boardId);
