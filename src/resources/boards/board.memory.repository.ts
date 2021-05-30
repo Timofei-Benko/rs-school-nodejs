@@ -1,6 +1,7 @@
 const Board = require('./board.model');
+import IBoard = require('./board.iterface')
 
-const boards = [];
+const boards: Array<IBoard> = [];
 
 const { deleteAllTasks } = require('../tasks/task.service');
 
@@ -8,14 +9,14 @@ const { deleteAllTasks } = require('../tasks/task.service');
  * Returns all boards from the boards storage in an array as a promise.
  * @returns {Promise<object[]>} Array of board objects
  */
-const getAll = async () => boards;
+const getAll = async (): Promise<Array<IBoard | undefined>> => boards;
 
 /**
  * Finds a board object based on the given id and returns it as a promise.
  * @param {string} id Board id
  * @returns {Promise<object>} Found board's data
  */
-const getBoard = async (id) => boards.find(board => board.id === id);
+const getBoard = async (id: string): Promise<IBoard | undefined> => boards.find(board => board.id === id);
 
 /**
  * Creates new board object based on the provided object and pushes it to board storage.
@@ -23,8 +24,8 @@ const getBoard = async (id) => boards.find(board => board.id === id);
  * @param {object} boardData Board data
  * @returns {Promise<object>} Created board's data
  */
-const createBoard = async (boardData) => {
-  const newBoard = new Board(boardData);
+const createBoard = async (boardData: IBoard): Promise<IBoard | undefined> => {
+  const newBoard: IBoard = new Board(boardData);
   boards.push(newBoard);
   return newBoard;
 };
@@ -36,9 +37,9 @@ const createBoard = async (boardData) => {
  * @param {object} newBoardData Board data to update
  * @returns {Promise<object>} Updated board's data
  */
-const updateBoard = async (id, newBoardData) => {
-  const boardToUpdate = await getBoard(id);
-  const updatedBoard = new Board({...boardToUpdate, ...newBoardData });
+const updateBoard = async (id: string, newBoardData: IBoard): Promise<IBoard | undefined> => {
+  const boardToUpdate: IBoard | undefined = await getBoard(id);
+  const updatedBoard: IBoard = new Board({...boardToUpdate, ...newBoardData });
   Object.assign(boardToUpdate, newBoardData);
   return updatedBoard;
 };
@@ -49,8 +50,8 @@ const updateBoard = async (id, newBoardData) => {
  * @param {string} boardId Board id
  * @returns {Promise<void>}
  */
-const removeBoard = async (boardId) => {
-  const boardIndex = boards.findIndex(board => board.id === boardId);
+const removeBoard = async (boardId: string): Promise<void> => {
+  const boardIndex: number = boards.findIndex(board => board.id === boardId);
   await deleteAllTasks(boardId);
   boards.splice(boardIndex, 1);
 };

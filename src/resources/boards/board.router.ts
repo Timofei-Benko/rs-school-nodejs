@@ -1,14 +1,15 @@
 const router = require('express').Router();
 const boardsService = require('./board.service');
+import IBoard = require('./board.iterface');
 
-router.route('/').get(async (req, res) => {
-  const boards = await boardsService.getAll();
+router.route('/').get(async (_req, res) => {
+  const boards: Array<IBoard> = await boardsService.getAll();
   res.status(200).json(boards);
 });
 
 router.route('/:boardId').get(async (req, res) => {
-  const { boardId } = req.params;
-  const board = await boardsService.getBoard(boardId);
+  const { boardId } : { boardId : string } = req.params;
+  const board: IBoard | undefined = await boardsService.getBoard(boardId);
   if (!board) {
     res.status(404).json({ status: 'Not found' });
   } else {
@@ -17,20 +18,20 @@ router.route('/:boardId').get(async (req, res) => {
 });
 
 router.route('/').post(async (req, res) => {
-  const board = await boardsService.createBoard(req.body);
+  const board: IBoard = await boardsService.createBoard(req.body);
   res.status(201).json(board);
 });
 
 router.route('/:boardId').put(async (req, res) => {
-  const { boardId } = req.params;
-  const boardUpdateDto = req.body;
-  const updatedBoard = await boardsService.updateBoard(boardId, boardUpdateDto);
+  const { boardId } : { boardId : string } = req.params;
+  const newBoardData: IBoard = req.body;
+  const updatedBoard: IBoard = await boardsService.updateBoard(boardId, newBoardData);
   res.status(200).json(updatedBoard);
 });
 
 router.route('/:boardId').delete(async (req, res) => {
-  const { boardId } = req.params;
-  const board = await boardsService.getBoard(boardId);
+  const { boardId } : { boardId : string } = req.params;
+  const board: IBoard | undefined = await boardsService.getBoard(boardId);
   if (!board) {
     res.status(404).json({ status: 'Not found' });
   } else {

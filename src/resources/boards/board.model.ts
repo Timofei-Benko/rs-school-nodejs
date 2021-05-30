@@ -1,10 +1,15 @@
 const { v4: uuid } = require('uuid');
+import IBoard = require('./board.iterface');
 
-class Board {
+class Board implements IBoard{
+  id: string;
+  title: string;
+  columns: Array<object>;
+
   constructor({
     id = uuid(),
     title = 'BOARD',
-    columns = new Set(),
+    columns = [],
   } = {}) {
     this.id = id;
     this.title = title;
