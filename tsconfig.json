@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "allowJs": true,
+    "module": "CommonJS",
+    "allowJs": false,
     "outDir": "./build",
     "rootDir": "./src",
     "downlevelIteration": false,
@@ -24,6 +25,6 @@
     "node_modules/"
   ],
   "include": [
-    "../src/**/*"
+    "./src/**/*"
   ]
 }
