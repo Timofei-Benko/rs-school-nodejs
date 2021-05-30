@@ -1,14 +1,9 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "module": "es2020",
     "allowJs": true,
     "outDir": "./build",
     "rootDir": "./src",
-    "baseUrl": "./src",
-    "paths" : {
-      "tslib/*": "package/tslib/src/*"
-    },
     "downlevelIteration": false,
     "strict": true,
     "noUnusedLocals": true,
@@ -29,6 +24,6 @@
     "node_modules/"
   ],
   "include": [
-    "../src/**/*.ts"
+    "../src/**/*"
   ]
 }
