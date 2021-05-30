@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-unused-vars */
 interface ITask {
     id: string,
     title?: string,
