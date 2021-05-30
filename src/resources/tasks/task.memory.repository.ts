@@ -1,19 +1,20 @@
 const Task = require('./task.model');
+import ITask = require('./task.interface');
 
-let tasks = [];
+let tasks: Array<ITask> = [];
 
 /**
  * Returns all tasks from the tasks storage in an array as a promise.
  * @returns {Promise<object[]>}
  */
-const getAll = async () => tasks;
+const getAll = async (): Promise<Array<ITask | undefined>> => tasks;
 
 /**
  * Finds a task object based on the given id and returns it as a promise.
  * @param {string} id Task id
  * @returns {Promise<object>}
  */
-const getTask = async (id) => tasks.find((task) => task.id === id);
+const getTask = async (id: string): Promise<ITask | undefined> => tasks.find((task) => task.id === id);
 
 /**
  * Creates new task object based on the provided object, assigns it provided board id
@@ -23,8 +24,8 @@ const getTask = async (id) => tasks.find((task) => task.id === id);
  * @param {string} boardId Id of the board the task is assigned to
  * @returns {Promise<object>} Created task's data
  */
-const createTask = async (taskData, boardId) => {
-  const newTask = new Task(taskData);
+const createTask = async (taskData: ITask, boardId: string): Promise<ITask | undefined> => {
+  const newTask: ITask= new Task(taskData);
   newTask.boardId = boardId;
   tasks.push(newTask);
   return newTask;
@@ -39,9 +40,9 @@ const createTask = async (taskData, boardId) => {
  * @param {string} id task id
  * @returns {Promise<object>} Updated task's data
  */
-const updateTask = async (newTaskData, id) => {
-  const taskToUpdate = await getTask(id);
-  const updatedTask = new Task({ ...taskToUpdate, ...newTaskData });
+const updateTask = async (newTaskData: ITask, id: string): Promise<ITask | undefined> => {
+  const taskToUpdate: ITask | undefined = await getTask(id);
+  const updatedTask: ITask = new Task({ ...taskToUpdate, ...newTaskData });
   Object.assign(taskToUpdate, newTaskData);
   return updatedTask;
 };
@@ -51,9 +52,9 @@ const updateTask = async (newTaskData, id) => {
  * @param {string} id Task id
  * @returns {Promise<void>}
  */
-const deleteTask = async (id) => {
-  const index = tasks.findIndex((task) => task.id === id);
-  tasks.splice(index, 1);
+const deleteTask = async (id: string): Promise<void> => {
+  const taskToDelete: number = tasks.findIndex((task) => task.id === id);
+  tasks.splice(taskToDelete, 1);
 };
 
 /**
@@ -61,7 +62,7 @@ const deleteTask = async (id) => {
  * @param {string} boardId Id of the board the task is assigned to
  * @returns {Promise<void>}
  */
-const deleteAllTasks = async (boardId) => {
+const deleteAllTasks = async (boardId: string): Promise<void> => {
   tasks = tasks.filter(task => task.boardId !== boardId);
 };
 
@@ -70,7 +71,7 @@ const deleteAllTasks = async (boardId) => {
  * @param {string} userId Id of the user the task is assigned to
  * @returns {Promise<void>}
  */
-const unassignUsers = async (userId) => {
+const unassignUsers = async (userId: string): Promise<void> => {
   tasks.forEach(task => {
     if (task.userId === userId) {
       tasks.splice(tasks.indexOf(task), 1, { ...task, userId: null });
