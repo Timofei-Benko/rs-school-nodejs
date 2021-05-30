@@ -1,19 +1,20 @@
 const User = require('./user.model');
 const { unassignUsers } = require('../tasks/task.service');
+import IUser = require('./user.interfaces');
 
-const users = [];
+const users: Array<IUser | undefined> = [];
 
 /** Returns an array of all users as a promise
  * @returns {Promise<object[]>} Array of all stored users
  */
-const getAll = async () => users;
+const getAll = async (): Promise<Array<IUser | undefined>> => users;
 
 /**
  * Returns user object with given id as a promise
  * @param {string} id User's id
  * @returns {Promise<object>} User data
  */
-const getUser = async (id) => users.find(user => user.id === id);
+const getUser = async (id: string): Promise<IUser | undefined> => users.find(user => user?.id === id);
 
 /**
  * Creates new user object based on the provided object and pushes it to users storage.
@@ -21,7 +22,7 @@ const getUser = async (id) => users.find(user => user.id === id);
  * @param {object} user User data
  * @returns {Promise<object>} Created user's data
  */
-const createUser = async (user) => {
+const createUser = async (user: IUser): Promise<IUser> => {
   users.push(new User(user));
   return user
 };
@@ -33,9 +34,9 @@ const createUser = async (user) => {
  * @param {object} newUserData User data to update
  * @returns {Promise<object>} Updated user data
  */
-const updateUser = async (id, newUserData) => {
-  const userIndex = users.findIndex(user => user.id === id);
-  const updatedUser = {...newUserData, id};
+const updateUser = async (id: string, newUserData: object): Promise<IUser> => {
+  const userIndex: number = users.findIndex(user => user?.id === id);
+  const updatedUser: IUser = {...newUserData, id};
   users.splice(userIndex, 1, updatedUser);
   return updatedUser;
 };
@@ -46,8 +47,8 @@ const updateUser = async (id, newUserData) => {
  * @param {string} id User's id
  * @returns {Promise<object>} Deleted user's data
  */
-const deleteUser = async (id) => {
-  const userToDelete = users.find(user => user.id === id);
+const deleteUser = async (id: string): Promise<IUser | undefined> => {
+  const userToDelete: IUser | undefined = users.find(user => user?.id === id);
   await unassignUsers(id);
   users.splice(users.indexOf(userToDelete), 1);
   return userToDelete;
