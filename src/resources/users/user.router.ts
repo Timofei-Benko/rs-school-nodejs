@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const User = require('./user.model');
 const usersService = require('./user.service');
-import IUser = require('./user.interfaces');
+import IUser = require('./user.interface');
 
 router.route('/').get(async (_req, res) => {
   const users: Array<IUser> = await usersService.getAll();

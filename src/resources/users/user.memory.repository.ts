@@ -1,6 +1,6 @@
 const User = require('./user.model');
 const { unassignUsers } = require('../tasks/task.service');
-import IUser = require('./user.interfaces');
+import IUser = require('./user.interface');
 
 const users: Array<IUser | undefined> = [];
 

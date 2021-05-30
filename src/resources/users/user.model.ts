@@ -1,5 +1,5 @@
 const {v4: uuid} = require('uuid');
-import IUser = require('./user.interfaces')
+import IUser = require('./user.interface')
 
 class User implements IUser {
   id: string;
