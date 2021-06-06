@@ -3,6 +3,7 @@ const swaggerUI = require('swagger-ui-express');
 const path = require('path');
 const YAML = require('yamljs');
 const logger = require('./common/logger');
+const uncaughtErrorHandler = require('./common/uncaught.error.handler');
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
@@ -10,11 +11,15 @@ const taskRouter = require('./resources/tasks/task.router');
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
+uncaughtErrorHandler.uncaughtExceptionHandler();
+uncaughtErrorHandler.uncaughtRejectionHandler();
+
 app.use(express.json());
 
-app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+logger.morganConsoleLogger(app);
+logger.morganFileLogger(app);
 
-app.use(logger.morganLogger());
+app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use('/', (req, res, next) => {
   if (req.originalUrl === '/') {
