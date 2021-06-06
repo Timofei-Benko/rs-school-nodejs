@@ -1,0 +1,7 @@
+node_modules
+build
+doc
+.vscode
+.github
+test
+.eslintrc.js
