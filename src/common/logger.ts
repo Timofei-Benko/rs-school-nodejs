@@ -1,18 +1,21 @@
 const fs = require('fs');
-const logger = require('morgan');
+const morganBody = require('morgan-body');
 
-const morganLogger = (): Array<typeof logger> => {
+const morganConsoleLogger = (app): void => {
+    morganBody(app);
+}
 
-    if (!fs.existsSync('./logs')) fs.mkdirSync('./logs');
+if (!fs.existsSync('./logs')) fs.mkdirSync('./logs');
+const stream: NodeJS.WriteStream = fs.createWriteStream('./logs/access.log', {flags: 'a+'});
 
-    return [
-        logger('dev'),
-        logger('common', {
-            stream: fs.createWriteStream('./logs/access.log', {flags: 'a+'})
-        })
-    ];
+const morganFileLogger = (app): void => {
+    morganBody(app, {
+        stream: stream,
+        noColors: true,
+    });
 };
 
 module.exports = {
-    morganLogger,
+    morganConsoleLogger,
+    morganFileLogger,
 }
