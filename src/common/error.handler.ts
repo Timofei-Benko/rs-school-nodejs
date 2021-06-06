@@ -1,4 +1,5 @@
 import fs = require('fs');
+import e = require('express')
 
 const createLogsDirectory = () => {
     if (!fs.existsSync('./logs')) fs.mkdirSync('./logs');
@@ -21,8 +22,9 @@ const getStartTime = (): string => {
 }
 
 const uncaughtExceptionHandler = (): void => {
+    createLogsDirectory();
+
     process.on('uncaughtException', (error, origin) => {
-        createLogsDirectory();
 
         const time: string = getStartTime();
         const errorLog: string = `[${time}] - Uncaught Exception: ${error.message} - origin: ${origin}` + '\n';
@@ -37,7 +39,6 @@ function uncaughtRejectionHandler() {
     createLogsDirectory();
 
     process.on('unhandledRejection', (reason: Error) => {
-        if (!fs.existsSync('./logs')) fs.mkdirSync('./logs');
 
         const time: string = getStartTime();
         const errorLog: string =
@@ -49,7 +50,24 @@ function uncaughtRejectionHandler() {
     })
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const routeErrorHandler = (err: Error, _req: e.Request, res: e.Response, _next: e.NextFunction) => {
+    createLogsDirectory();
+
+    res.status(500);
+    res.render('error', { error: err });
+
+    const time: string = getStartTime();
+    const errorLog: string =
+        `[${time}] - Uncaught rejection: ${err}` + '\n';
+
+    console.error(errorLog);
+    fs.writeFileSync('./logs/error.log', errorLog, {flag: 'a+'});
+    process.exit(1)
+}
+
 module.exports = {
     uncaughtExceptionHandler,
     uncaughtRejectionHandler,
+    routeErrorHandler,
 }
