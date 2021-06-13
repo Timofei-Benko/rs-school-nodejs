@@ -10,6 +10,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "nodemon --watch './**/*.ts' --exec 'ts-node' ./src/server.ts",
+    "prod": "tsc & build/server.js",
     "build": "tsc",
     "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand --detectOpenHandles",
