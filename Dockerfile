@@ -10,7 +10,7 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 4001
+EXPOSE ${PORT}
 
 RUN npm install -g nodemon
 
