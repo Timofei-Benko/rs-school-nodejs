@@ -1,0 +1,13 @@
+.eslintignore
+.eslintrc.js
+.gitignore
+.prettierrc
+jsdoc.conf.json
+tsconfig.json
+README.md
+test
+logs
+doc
+.vscode
+.github
+node_modules
