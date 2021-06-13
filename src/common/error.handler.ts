@@ -24,7 +24,9 @@ const getStartTime = (): string => {
 const uncaughtExceptionHandler = (): void => {
     createLogsDirectory();
 
-    process.on('uncaughtException', (error, origin) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    process.on('uncaughtException', (error: Error, origin) => {
 
         const time: string = getStartTime();
         const errorLog: string = `[${time}] - Uncaught Exception: ${error.message} - origin: ${origin}` + '\n';
