@@ -1,13 +1,12 @@
 const router = require('express').Router();
 import e = require('express');
-const User = require('./user.model');
 const usersService = require('./user.service');
-import IUser = require('./user.interface');
+import UserEntity = require('./user.entity');
 
 router.route('/').get(async (_req: e.Request, res: e.Response, next: e.NextFunction) => {
   try {
-    const users: Array<IUser> = await usersService.getAll();
-    res.json(users.map(User.toResponse));
+    const users: Array<UserEntity> = await usersService.getAll();
+    res.json(users.map(user => usersService.getSafeResponse(user)));
   } catch (err) {
     next(err);
   }
@@ -15,8 +14,8 @@ router.route('/').get(async (_req: e.Request, res: e.Response, next: e.NextFunct
 
 router.route('/:id').get(async (req: e.Request, res: e.Response, next: e.NextFunction) => {
   try {
-    const user: IUser = await usersService.getUser(req.params['id']);
-    res.status(200).send(User.toResponse(user));
+    const user: UserEntity = await usersService.getUser(req.params['id']);
+    res.status(200).send(usersService.getSafeResponse(user));
   } catch (err) {
     next(err);
   }
@@ -24,8 +23,8 @@ router.route('/:id').get(async (req: e.Request, res: e.Response, next: e.NextFun
 
 router.route('/').post(async (req: e.Request, res: e.Response, next: e.NextFunction) => {
   try {
-    const user: IUser = await usersService.createUser(User.fromRequest(req.body));
-    res.status(201).send(User.toResponse(user));
+    const user: UserEntity = await usersService.createUser(req.body);
+    res.status(201).send(usersService.getSafeResponse(user));
   } catch (err) {
     next(err);
   }
@@ -33,11 +32,11 @@ router.route('/').post(async (req: e.Request, res: e.Response, next: e.NextFunct
 
 router.route('/:id').put(async (req: e.Request, res: e.Response, next: e.NextFunction) => {
   try {
-    const user: IUser = await usersService.updateUser(
+    const user: UserEntity = await usersService.updateUser(
         req.params['id'],
         req.body
     );
-    res.status(200).send(User.toResponse(user));
+    res.status(200).send(usersService.getSafeResponse(user));
   } catch (err) {
     next(err);
   }
@@ -45,8 +44,8 @@ router.route('/:id').put(async (req: e.Request, res: e.Response, next: e.NextFun
 
 router.route('/:id').delete(async (req: e.Request, res: e.Response, next: e.NextFunction) => {
   try {
-    const user: IUser = await usersService.deleteUser(req.params['id']);
-    res.status(204).send(User.toResponse(user));
+    const user: UserEntity = await usersService.deleteUser(req.params['id']);
+    res.status(204).send(usersService.getSafeResponse(user));
   } catch (err) {
     next(err);
   }
