@@ -1,22 +1,28 @@
-const Board = require('./board.model');
-import IBoard = require('./board.iterface')
+const { getRepository } = require('typeorm');
+import BoardEntity = require('./board.entity');
 
-const boards: Array<IBoard> = [];
-
-const { deleteAllTasks } = require('../tasks/task.service');
+// const boards: Array<IBoard> = [];
+//
+// const { deleteAllTasks } = require('../tasks/task.service');
 
 /**
  * Returns all boards from the boards storage in an array as a promise.
  * @returns {Promise<object[]>} Array of board objects
  */
-const getAll = async (): Promise<Array<IBoard | undefined>> => boards;
+const getAll = async (): Promise<Array<typeof BoardEntity| undefined>> => {
+    const boardRepository = getRepository(BoardEntity);
+    return boardRepository.find();
+};
 
 /**
  * Finds a board object based on the given id and returns it as a promise.
  * @param {string} id Board id
  * @returns {Promise<object>} Found board's data
  */
-const getBoard = async (id: string): Promise<IBoard | undefined> => boards.find(board => board.id === id);
+const getBoard = async (id: string): Promise<typeof BoardEntity| undefined> => {
+    const boardRepository = getRepository(BoardEntity);
+    return boardRepository.findOne(id);
+};
 
 /**
  * Creates new board object based on the provided object and pushes it to board storage.
@@ -24,10 +30,9 @@ const getBoard = async (id: string): Promise<IBoard | undefined> => boards.find(
  * @param {object} boardData Board data
  * @returns {Promise<object>} Created board's data
  */
-const createBoard = async (boardData: IBoard): Promise<IBoard | undefined> => {
-  const newBoard: IBoard = new Board(boardData);
-  boards.push(newBoard);
-  return newBoard;
+const createBoard = async (boardData): Promise<typeof BoardEntity| undefined> => {
+    const boardRepository = getRepository(BoardEntity);
+    return boardRepository.save(boardData);
 };
 
 /**
@@ -37,11 +42,13 @@ const createBoard = async (boardData: IBoard): Promise<IBoard | undefined> => {
  * @param {object} newBoardData Board data to update
  * @returns {Promise<object>} Updated board's data
  */
-const updateBoard = async (id: string, newBoardData: IBoard): Promise<IBoard | undefined> => {
-  const boardToUpdate: IBoard | undefined = await getBoard(id);
-  const updatedBoard: IBoard = new Board({...boardToUpdate, ...newBoardData });
-  Object.assign(boardToUpdate, newBoardData);
-  return updatedBoard;
+const updateBoard = async (id: string, newBoardData: typeof BoardEntity): Promise<typeof BoardEntity | null> => {
+    const boardRepository = getRepository(BoardEntity);
+    const boardToUpdate: typeof BoardEntity | undefined = await boardRepository.findOne(id);
+    if (!boardToUpdate) {
+        return null;
+    }
+    return boardRepository.save({...boardToUpdate, ...newBoardData});
 };
 
 /**
@@ -50,10 +57,13 @@ const updateBoard = async (id: string, newBoardData: IBoard): Promise<IBoard | u
  * @param {string} boardId Board id
  * @returns {Promise<void>}
  */
-const removeBoard = async (boardId: string): Promise<void> => {
-  const boardIndex: number = boards.findIndex(board => board.id === boardId);
-  await deleteAllTasks(boardId);
-  boards.splice(boardIndex, 1);
+const removeBoard = async (boardId: string): Promise<typeof BoardEntity| null> => {
+    const boardRepository = getRepository(BoardEntity);
+    const boardToRemove: typeof BoardEntity | undefined = await boardRepository.findOne(boardId);
+    if (!boardToRemove) {
+        return null;
+    }
+    return boardRepository.remove(boardToRemove);
 };
 
 module.exports = (
