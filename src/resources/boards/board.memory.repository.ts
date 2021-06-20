@@ -9,7 +9,7 @@ import BoardEntity = require('./board.entity');
  * Returns all boards from the boards storage in an array as a promise.
  * @returns {Promise<object[]>} Array of board objects
  */
-const getAll = async (): Promise<Array<typeof BoardEntity| undefined>> => {
+const getAll = async (): Promise<Array<BoardEntity| undefined>> => {
     const boardRepository = getRepository(BoardEntity);
     return boardRepository.find();
 };
@@ -19,7 +19,7 @@ const getAll = async (): Promise<Array<typeof BoardEntity| undefined>> => {
  * @param {string} id Board id
  * @returns {Promise<object>} Found board's data
  */
-const getBoard = async (id: string): Promise<typeof BoardEntity| undefined> => {
+const getBoard = async (id: string): Promise<BoardEntity | undefined> => {
     const boardRepository = getRepository(BoardEntity);
     return boardRepository.findOne(id);
 };
@@ -30,7 +30,7 @@ const getBoard = async (id: string): Promise<typeof BoardEntity| undefined> => {
  * @param {object} boardData Board data
  * @returns {Promise<object>} Created board's data
  */
-const createBoard = async (boardData): Promise<typeof BoardEntity| undefined> => {
+const createBoard = async (boardData): Promise<BoardEntity| undefined> => {
     const boardRepository = getRepository(BoardEntity);
     return boardRepository.save(boardData);
 };
@@ -42,12 +42,10 @@ const createBoard = async (boardData): Promise<typeof BoardEntity| undefined> =>
  * @param {object} newBoardData Board data to update
  * @returns {Promise<object>} Updated board's data
  */
-const updateBoard = async (id: string, newBoardData: typeof BoardEntity): Promise<typeof BoardEntity | null> => {
+const updateBoard = async (id: string, newBoardData: BoardEntity): Promise<BoardEntity | null> => {
     const boardRepository = getRepository(BoardEntity);
-    const boardToUpdate: typeof BoardEntity | undefined = await boardRepository.findOne(id);
-    if (!boardToUpdate) {
-        return null;
-    }
+    const boardToUpdate: BoardEntity | undefined = await boardRepository.findOne(id);
+    if (!boardToUpdate) return null;
     return boardRepository.save({...boardToUpdate, ...newBoardData});
 };
 
@@ -57,12 +55,10 @@ const updateBoard = async (id: string, newBoardData: typeof BoardEntity): Promis
  * @param {string} boardId Board id
  * @returns {Promise<void>}
  */
-const removeBoard = async (boardId: string): Promise<typeof BoardEntity| null> => {
+const removeBoard = async (boardId: string): Promise<BoardEntity | null> => {
     const boardRepository = getRepository(BoardEntity);
-    const boardToRemove: typeof BoardEntity | undefined = await boardRepository.findOne(boardId);
-    if (!boardToRemove) {
-        return null;
-    }
+    const boardToRemove: BoardEntity | undefined = await boardRepository.findOne(boardId);
+    if (!boardToRemove) return null;
     return boardRepository.remove(boardToRemove);
 };
 
