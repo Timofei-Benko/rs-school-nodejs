@@ -11,6 +11,12 @@
 git clone {repository URL}
 ```
 
+OR for a specific branch
+
+```
+git clone {repository URL} -b {branch name}
+```
+
 ## Installing NPM modules
 
 ```
@@ -22,8 +28,13 @@ npm install
 ```
 npm start
 ```
+OR to run via Docker
 
-After starting the app on port (4000 as default) you can open
+```
+docker compose up
+```
+
+After starting the app on the port defined as environmental variable you can open
 in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
@@ -59,7 +70,7 @@ npm run test:auth <suite name>
 
 If you're using VSCode, you can get a better developer experience from integration with [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions.
 
-### Auto-fix and format
+### Check code style (won't fix anything)
 
 ```
 npm run lint

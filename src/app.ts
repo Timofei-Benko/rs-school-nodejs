@@ -21,7 +21,7 @@ logger.morganFileLogger(app);
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-app.use('/', (req, res, next) => {
+app.use('/', (req: { originalUrl: string; }, res: { send: (arg0: string) => void; }, next: () => void) => {
   if (req.originalUrl === '/') {
     res.send('Service is running!');
     return;
