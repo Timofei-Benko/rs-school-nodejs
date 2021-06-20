@@ -6,7 +6,6 @@ services:
     image: tb/rest
     volumes:
       - ./src:/usr/app/src
-    network_mode: my-net
     restart: on-failure
     ports:
       - ${PORT}:${PORT}
@@ -22,7 +21,7 @@ services:
     networks:
       - my-network
   db:
-    container_name: postgres
+    container_name: db
     build: ./docker/db/
     image: tb/postgres
     restart: always
