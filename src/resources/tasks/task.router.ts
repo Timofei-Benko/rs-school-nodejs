@@ -25,9 +25,10 @@ router.route('/:taskId').get(async (req: e.Request, res: e.Response, next: e.Nex
 router.route('/').post(async (req: e.Request, res: e.Response, next: e.NextFunction) => {
   try {
     const { boardId } = req.params;
-    const task: TaskEntity | undefined = await tasksService.createTask(
-        req.body,
-        boardId
+    const task: TaskEntity | undefined = await tasksService.createTask({
+          ...req.body,
+          boardId
+        }
     );
     res.status(201).json(task);
   } catch (err) {

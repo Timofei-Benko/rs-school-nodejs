@@ -15,15 +15,15 @@ const config: typeof ConnectionOptions = {
     password: POSTGRES_PASSWORD,
     entities: [ UserEntity, BoardEntity, TaskEntity, ColumnEntity ],
     migrationsRun: true,
-    synchronize: false,
+    synchronize: true,
     logging: false,
     autoReconnect: true,
     reconnectTries: Number.MAX_VALUE,
     reconnectionInterval: 1000,
-    migrations: ['src/migration/*.ts'],
-    cli: {
-        migrationsDir: 'src/migration',
-    },
+    // migrations: ['src/db/migration/*.ts'],
+    // cli: {
+    //     migrationsDir: 'src/db/migration',
+    // },
 };
 
 module.exports = config;

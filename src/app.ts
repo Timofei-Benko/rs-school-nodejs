@@ -33,6 +33,6 @@ app.use('/users', userRouter);
 app.use('/boards', boardRouter);
 app.use('/boards/:boardId/tasks', taskRouter);
 
-app.use(errorHandler.routeErrorHandler);
+// app.use(errorHandler.routeErrorHandler);
 
 export = app;
