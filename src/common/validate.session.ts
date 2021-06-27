@@ -1,6 +1,6 @@
 import e = require("express");
 const jwt = require('jsonwebtoken');
-const JWT_SECRET_KEY: string = require('../common/config').toString();
+const { JWT_SECRET_KEY } = require('../common/config');
 
 // @ts-ignore
 const validateSession = (req: e.Request, res: e.Response, next: e.NextFunction): e.Response | e.NextFunction => {
