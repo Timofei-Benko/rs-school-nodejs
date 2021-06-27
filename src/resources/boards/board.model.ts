@@ -4,7 +4,11 @@ import IBoard = require('./board.iterface');
 class Board implements IBoard{
   id: string;
   title: string;
-  columns: Array<object>;
+  columns: Array<{
+    id: string;
+    title: string;
+    order: number;
+  }>;
 
   constructor({
     id = uuid(),

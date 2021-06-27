@@ -1,11 +1,11 @@
 version: '3'
 services:
   app:
+    container_name: app
     build: .
+    image: tb/rest
     volumes:
-      - ./src:/usr/src/app/src
-      - /usr/src/app/node_modules
-    network_mode: my-net
+      - ./src:/usr/app/src
     restart: on-failure
     ports:
       - ${PORT}:${PORT}
@@ -13,15 +13,25 @@ services:
       - db
     environment:
       PORT: ${PORT}
-  db:
-    image: postgres
-    network_mode: my-net
-    restart: on-failure
-    build: .
-    ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+    networks:
+      - my-network
+  db:
+    container_name: db
+    build: ./docker/db/
+    image: tb/postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
