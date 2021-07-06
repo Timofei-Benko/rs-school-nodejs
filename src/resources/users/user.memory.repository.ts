@@ -1,4 +1,5 @@
 const { getRepository } = require('typeorm');
+const bcrypt = require('bcrypt');
 import UserEntity = require('./user.entity');
 const taskService = require('../tasks/task.service');
 
@@ -17,9 +18,15 @@ const getUser = async (id: string): Promise<UserEntity | undefined> => {
   return userRepository.findOne(id);
 }
 
+const getUserByFilter = async (filter: Record<string, string>): Promise<boolean> => {
+  const userRepository = getRepository(UserEntity);
+  return userRepository.findOne({ where: filter });
+};
+
 const createUser = async (userData): Promise<UserEntity> => {
   const userRepository = getRepository(UserEntity);
-  return userRepository.save(userData);
+  const passwordHash = bcrypt.hashSync(userData.password, 10)
+  return userRepository.save({ ...userData, password: passwordHash });
 };
 
 const updateUser = async (id: string, newUserData: object): Promise<UserEntity | null> => {
@@ -41,6 +48,7 @@ module.exports = {
   getSafeResponse,
   getAll,
   getUser,
+  getUserByFilter,
   createUser,
   updateUser,
   deleteUser,

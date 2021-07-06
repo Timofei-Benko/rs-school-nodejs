@@ -7,13 +7,13 @@ class UserEntity {
     @PrimaryGeneratedColumn('uuid')
     id?: string;
 
-    @Column('varchar', { length: 50 })
+    @Column('varchar', { length: 50, nullable: true })
     name?: string;
 
     @Column('varchar', { length: 50 })
     login?: string;
 
-    @Column('varchar', { length: 50 })
+    @Column('varchar', { length: 100 })
     password?: string;
 
     @OneToMany('BoardEntity', 'user')

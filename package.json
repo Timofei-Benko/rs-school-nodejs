@@ -21,7 +21,9 @@
     "doc": "jsdoc -c ./jsdoc.conf.json -d ./out"
   },
   "nodemonConfig": {
-    "watch": ["src/*"],
+    "watch": [
+      "src/*"
+    ],
     "ext": ".ts"
   },
   "keywords": [
@@ -57,9 +59,11 @@
     "@types/dotenv": "^8.2.0",
     "@types/morgan": "^1.9.2",
     "@types/swagger-ui-express": "^4.1.2",
+    "bcrypt": "^5.0.1",
     "cross-env": "7.0.3",
     "dotenv": "9.0.0",
     "express": "4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "morgan-body": "^2.6.5",
     "pg": "^8.6.0",
@@ -69,7 +73,9 @@
     "yamljs": "0.3.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.12",
+    "@types/jsonwebtoken": "^8.5.2",
     "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",
