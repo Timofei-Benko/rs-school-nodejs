@@ -34,14 +34,14 @@ After application running open new terminal and enter:
 ```
 npm run test:auth
 ```
-to run all tests with authorization
+to run all e2e tests with authorization
 
 OR
 
 ```
 npm run test:artillery
 ```
-to run artillery tests (will also generate a report and put it in root directory as report.json)
+to run load tests with artillery (will also generate a report and put it in root directory as report.json)
 
 ## Express v. Fastify comparison
 
