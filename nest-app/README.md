@@ -11,8 +11,8 @@
 ```
 git clone {repository URL} -b {branch_name}
 ```
-
-(before running anything of the below, make sure you are in nest-app folder!)
+---
+(before running any of the below described commands, make sure you are in the nest-app directory!)
 
 ## Installing NPM modules
 
